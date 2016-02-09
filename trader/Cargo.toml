@@ -1,0 +1,19 @@
+[package]
+name = "trader"
+version = "0.1.0"
+authors = ["ex <dallyshalla@gmail.com>"]
+
+[[bin]]
+name = "bittrexcli"
+path = "apps/bittrexcli.rs"
+
+[lib]
+name = "bittrexlib"
+path = "src/bittrex.rs"
+
+
+[dependencies]
+rustc-serialize = "0.3.16"
+time = "0.1"
+rust-crypto = "^0.2"
+curl = "0.2.16"
