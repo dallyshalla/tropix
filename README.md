@@ -9,7 +9,7 @@ trade automator for cryptocurrency exchange
 ```bash
 
 # install rust stable
-curl -sf https://raw.githubusercontent.com/brson/multirust/master/blastoff.sh | sudo sh -s -- --yes
+curl -sf https://raw.githubusercontent.com/brson/multirust/master/blastoff.sh | sh
 
 # install stable and make it default
 sudo multirust update stable
