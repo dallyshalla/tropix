@@ -28,7 +28,7 @@ cargo run --bittrexcli
 brew update
 brew install multirust
 
-# install nightly and make it default
+# install stable and make it default
 multirust update stable && multirust default stable
 
 # download and build tropix
