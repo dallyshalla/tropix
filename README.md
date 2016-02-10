@@ -1,15 +1,40 @@
 # tropix
 trade automator for cryptocurrency exchange
 
+#install
+### Building from source
 
-cargo run --bin bittrexcli
+##### Ubuntu 14.04, 15.04, 15.10
 
-println!("Welcome to Tropix - Bittrexcli Trader");
-   		println!("Options available:");
-   		println!("0: Exit");
-   		println!("1: Check Balances");
-   		println!("2: Check Existing Orders");
-   		println!("3: Buy");
-   		println!("4: Sell");
-   		println!("5: Get Orderbook");
-   		println!("6: Trade Automation");
+```bash
+
+# install rust stable
+curl -sf https://raw.githubusercontent.com/brson/multirust/master/blastoff.sh | sudo sh -s -- --yes
+
+# install stable and make it default
+sudo multirust update stable
+sudo multirust default stable
+
+# download and build tropix
+git clone https://github.com/dallyshalla/tropix
+cd tropix
+cargo run --bittrexcli
+```
+
+##### OSX with Homebrew
+
+```bash
+# install multirust
+brew update
+brew install multirust
+
+# install nightly and make it default
+multirust update stable && multirust default stable
+
+# download and build tropix
+git clone https://github.com/dallyshalla/tropix
+cd tropix
+cargo run --bittrexcli
+```
+
+
