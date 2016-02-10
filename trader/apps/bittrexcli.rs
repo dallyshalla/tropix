@@ -35,14 +35,34 @@ fn main() {
 
     let the_secret_trimmed = input2.trim_right_matches("\n");
     //let the_secret_bytes = the_secret_trimmed.as_bytes();
+    let mut loop_index = 1;
+	while loop_index != 0 {
 
-    let the_balances = bittrexlib::get_balances(the_api_key, the_secret_trimmed);
-//nonce
-	for balance in the_balances {
-    	println!("Currency {:?}", balance.Currency);
-    	println!("Balance {:?}", balance.Balance);
-    	println!("Available {:?}", balance.Available);
-    	println!("Pending {:?}", balance.Pending);
-    	println!("CryptoAddress {:?}", balance.CryptoAddress);
-    }
+   		println!("Welcome to Tropix - Bittrexcli Trader");
+   		println!("Options available:");
+   		println!("0: Exit");
+   		println!("1: Check Balances");
+   		let mut input = String::new();
+   		let stdin = io::stdin();
+   		stdin.lock().read_line(&mut input).unwrap();
+
+    	if(input=="1\n") {
+    		let the_balances = bittrexlib::get_balances(&the_api_key, &the_secret_trimmed);
+    		for balance in the_balances {
+    			println!("Currency {:?}", balance.Currency);
+    			println!("Balance {:?}", balance.Balance);
+    			println!("Available {:?}", balance.Available);
+    			println!("Pending {:?}", balance.Pending);
+    			println!("CryptoAddress {:?}", balance.CryptoAddress);
+    		}
+      		loop_index = 1;	
+    	}
+		else if(input=="0\n") {
+    		loop_index = 0;
+    		println!("goodbye");
+		}
+		else if(input=="3\n") {
+		}
+	}
+	
 }
