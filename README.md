@@ -18,7 +18,7 @@ sudo multirust default stable
 # download and build tropix
 git clone https://github.com/dallyshalla/tropix
 cd tropix
-cargo run --bittrexcli
+cargo run --bin bittrexcli
 ```
 
 ##### OSX with Homebrew
@@ -34,7 +34,7 @@ multirust update stable && multirust default stable
 # download and build tropix
 git clone https://github.com/dallyshalla/tropix
 cd tropix
-cargo run --bittrexcli
+cargo run --bin bittrexcli
 ```
 
 
