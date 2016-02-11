@@ -278,6 +278,34 @@ pub fn get_orderbook(secretkey: &str, firstcoin: &str, secondcoin: &str, depth: 
     orderbook
 }
 
+pub fn cancel_order(apikey: &str, secretkey: &str, uuid: &str) -> String {
+	let api_keystring = "apikey=".to_string() + apikey;
+	let the_uuid = "&uuid=".to_string() + uuid;
+	let api_nonce = "&nonce=1";
+	let parameters = "".to_string() + &api_keystring + &the_uuid + &api_nonce;
+	let the_secret_bytes = secretkey.as_bytes();
+//nonce
+
+	let the_begin_url = "https://bittrex.com/api/v1.1/market/cancel?".to_string() + &parameters;
+	let the_url_clone = the_begin_url.clone();
+//uri
+//hmac-sha512 signature of uri
+	let mut the_sha = Sha512::new();
+	let the_base_key = the_secret_bytes;
+	let mut the_new_mac = crypto::hmac::Hmac::new(the_sha, the_base_key);
+	the_new_mac.input(the_begin_url.as_bytes());
+	//let the_digestive = Digest::input(the_digestive, &the_uri_bytes);
+	let the_signature_string =  &the_new_mac.result().code().to_hex().to_string();
+    let resp_openorders = http::handle()
+		.post(the_url_clone, &parameters)
+		.header("apisign", &the_signature_string)
+		.exec().unwrap();
+
+	let mut us = String::from_utf8_lossy(resp_openorders.get_body());
+	let mut data = String::new();
+    resp_openorders.get_body().read_to_string(&mut data).unwrap();
+    data
+}
 
 
 
