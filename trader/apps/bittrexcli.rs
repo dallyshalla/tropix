@@ -37,7 +37,6 @@ fn main() {
     stdin1.lock().read_line(&mut input1).unwrap();
 
     let next_string = &input1.trim_right_matches("\n");
-    println!("{:?}", &next_string);
 	
 	let the_api_key = &next_string;
 //secret Key
@@ -371,8 +370,6 @@ fn main() {
     			keep_daily_timing += 1;
 
 
-
-
     				//two things, track the trades made and get profit taking
     				//the other thing is figure out for calculating the minimum trade size
     			//3
@@ -417,7 +414,8 @@ fn main() {
     						if (sell.Rate < target_price) & (available_trade > 0.00056) {
 
     							if sell.Quantity > available_trade {
-    								let y = (available_trade * 10000000.00).round() / 10000000.00;
+    								let the_longrate = available_trade / sell.Rate;
+    								let y = (the_longrate * 100000000.00).round() / 100000000.00;
     								let the_trade = buy_market(&the_api_key, &the_secret_trimmed, &firstcoin_trimmed, &secondcoin_trimmed, &y.to_string(), &sell.Rate.to_string());
     								total_traded += available_trade;
     								let profit_multiplier = profit_parsed / 100.00;
@@ -427,15 +425,20 @@ fn main() {
 
     								let the_botstrade: BotTrade = BotTrade {
     									price: sell.Rate,
-    									quantity: available_trade,
+    									quantity: y,
     									target: xy,
     								};
     								bots_clone1.push(the_botstrade);
 
+    										println!("TRADE MADE {:?}", the_trade);
+    										println!("TRADE MADE {:?}", the_botstrade.quantity);
+
     							}
     							else {
     								let the_adjusted_quantity = available_trade - sell.Quantity;
-    								let y = (the_adjusted_quantity * 100000000.00).round() / 100000000.00;
+    								let the_longrate = the_adjusted_quantity / sell.Rate;
+    								let y = (the_longrate * 100000000.00).round() / 100000000.00;
+
     								let the_trade = buy_market(&the_api_key, &the_secret_trimmed, &firstcoin_trimmed, &secondcoin_trimmed, &y.to_string(), &sell.Rate.to_string());
     								total_traded += the_adjusted_quantity;
     								let profit_multiplier = profit_parsed / 100.00;
@@ -449,6 +452,8 @@ fn main() {
     									target: xy,
     								};
     								bots_clone2.push(the_botstrade);
+    										println!("TRADE MADE {:?}", the_trade);
+    										println!("TRADE MADE {:?}", the_botstrade.quantity);
     							}
 
     						}
@@ -509,6 +514,7 @@ fn main() {
     									target: xy,
     								};
     								bots_clone3.push(the_botstrade);
+    										println!("TRADE MADE {:?}", the_botstrade.quantity);
     							}
     							else {
     								let the_adjusted_quantity = available_trade - buy.Quantity;
@@ -526,6 +532,7 @@ fn main() {
     									target: xy,
     								};
     								bots_clone4.push(the_botstrade);
+    										println!("TRADE MADE {:?}", the_botstrade.quantity);
     							}
     						}
     					}
@@ -535,6 +542,7 @@ fn main() {
     			if keep_timing == trade_interval {
     				keep_timing = 0;
     				total_traded = 0.00;
+    				println!("resetting trade total");
     			}
 
     			if keep_daily_timing == 14400 {
