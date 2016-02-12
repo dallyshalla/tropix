@@ -307,7 +307,37 @@ pub fn cancel_order(apikey: &str, secretkey: &str, uuid: &str) -> String {
     data
 }
 
+#[derive(RustcDecodable, RustcEncodable)]
+pub struct BidAskLast {
+	pub Bid: f64,
+	pub Ask: f64,
+	pub Last: f64,
+}
 
+pub fn get_ticker(firstcoin: &str, secondcoin: &str) -> BidAskLast {
+	let market = "market=".to_string() + firstcoin + "-" + secondcoin;
+	let parameters = "".to_string() + &market;
+//nonce
+
+	let the_begin_url = "https://bittrex.com/api/v1.1/public/getticker?".to_string() + &parameters;
+	let the_url_clone = the_begin_url.clone();
+	let resp_ticker = http::handle()
+		.post(the_url_clone, &parameters)
+		.exec().unwrap();
+
+	let mut us = String::from_utf8_lossy(resp_ticker.get_body());
+	let mut data = String::new();
+    resp_ticker.get_body().read_to_string(&mut data).unwrap();
+
+
+    let ticker_json = Json::from_str(&data).unwrap();
+    let ticker_result = ticker_json.find("result");
+    let ticker_result_string: String = json::encode(&ticker_result).unwrap();
+
+    let bid_ask_last: BidAskLast = json::decode(&ticker_result_string).unwrap();
+    bid_ask_last
+
+}
 
 
 
